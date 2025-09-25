@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8" />
+  <title>{{ profile.full_name }} — Portfolio</title>
+</head>
+<body>
+  <h1>{{ profile.full_name }}</h1>
+  <p>{{ profile.bio }}</p>
+  <p>Email: {{ profile.email }}</p>
+  <p>Telefon: {{ profile.phone }}</p>
+  <p>Manzil: {{ profile.location }}</p>
+
+  <h2>Ko‘nikmalar</h2>
+  <ul>
+    {% for skill in profile.skills.all %}
+      <li>{{ skill.name }} — {{ skill.level }}%</li>
+    {% empty %}
+      <li>Ko‘nikmalar qo‘shilmagan</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Loyihalar</h2>
+  <ul>
+    {% for project in profile.projects.all %}
+      <li>
+        <strong>{{ project.title }}</strong><br>
+        {{ project.description }}
+      </li>
+    {% empty %}
+      <li>Loyihalar mavjud emas</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Xabar yuborish</h2>
+  {% if messages %}
+    {% for message in messages %}
+      <p style="color: green;">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Yuborish</button>
+  </form>
+
+  <br>
+  <a href="{% url 'index' %}">← Orqaga qaytish</a>
+</body>
+</html>
